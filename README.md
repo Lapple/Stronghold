@@ -16,16 +16,16 @@ By default `#menu` will get one of the following CSS classes:
 
 - `static` when the top offset of the viewport is above the target element;
 - `fixed` when the top offset is below the target element;
-- `absolute` when the target element, while being fixed, reaches the bottom of `within`.
+- `bottom` when the target element, while being fixed, reaches the bottom of `within`.
 
 These classes can be easily overriden, *e.g.*:
 
 ```js
 $( '#menu' ).stronghold({
-    within        : $( '#content' ),
-    staticClass   : 'stronghold-static',
-    fixedClass    : 'stronghold-fixed',
-    absoluteClass : 'stronghold-bottom'
+    within      : $( '#content' ),
+    staticClass : 'stronghold-static',
+    fixedClass  : 'stronghold-fixed',
+    bottomClass : 'stronghold-bottom'
 });
 ```
 
@@ -37,7 +37,7 @@ Please consider supplying your own CSS declarations for the above classes, howev
     top: 10px;
 }
 
-#menu.absolute {
+#menu.bottom {
     position: absolute;
     bottom: 0;
 }
@@ -73,7 +73,7 @@ $( '#menu' ).stronghold({
     onStatic: function() {
         console.log( 'The menu is back to static' );
     },
-    onAbsolute: function() {
+    onBottom: function() {
         console.log( 'The menu reached the bottom' );
     }
 });

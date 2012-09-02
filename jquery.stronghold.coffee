@@ -17,13 +17,13 @@ do ( $ = jQuery ) ->
           # Add @fixedClass if the scroll position
           # is in the middle of the page
           if scrollTop >= @contentOffsetTop and @offsetRight
-            # Add @absoluteClass if the page is scrolled
+            # Add @bottomClass if the page is scrolled
             # to the bottom of the boundary
             sHeight = @el.height()
             cHeight = @within.outerHeight()
 
             if scrollTop > cHeight + @contentOffsetTop - sHeight
-              @set @absoluteClass, { right: 'auto' }
+              @set @bottomClass, { right: 'auto' }
             else
               @set @fixedClass, { right: @offsetRight }
           else
@@ -57,7 +57,7 @@ do ( $ = jQuery ) ->
       switch newState
         when @staticClass   then @onStatic?.call( @el[0] )
         when @fixedClass    then @onFixed?.call( @el[0] )
-        when @absoluteClass then @onAbsolute?.call( @el[0] )
+        when @bottomClass   then @onBottom?.call( @el[0] )
 
       @el
         .removeClass( @sidebarState )
@@ -70,7 +70,7 @@ do ( $ = jQuery ) ->
     defaults:
       preventClass  : ''
       fixedClass    : 'fixed'
-      absoluteClass : 'absolute'
+      bottomClass   : 'bottom'
       staticClass   : 'static'
       staticOffset  : 0
       within        : $( 'body' )
