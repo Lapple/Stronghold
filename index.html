@@ -1,0 +1,117 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Stronghold by Lapple</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="javascripts/scale.fix.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Stronghold</h1>
+        <p>Small jQuery plugin that adds «fixed-view» behavior to any element</p>
+        <p class="view"><a href="https://github.com/Lapple/Stronghold">View the Project on GitHub <small>Lapple/Stronghold</small></a></p>
+        <ul>
+          <li><a href="https://github.com/Lapple/Stronghold/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/Lapple/Stronghold/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/Lapple/Stronghold">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>Stronghold v0.0.1</h1>
+
+<p>Small jQuery plugin that adds «fixed-view» behavior to any element.</p>
+
+<h2>Basic Usage</h2>
+
+<div class="highlight"><pre><span class="nx">$</span><span class="p">(</span> <span class="s1">'#menu'</span> <span class="p">).</span><span class="nx">stronghold</span><span class="p">({</span>
+    <span class="c1">// Boundaries to fix the element within.</span>
+    <span class="c1">// Default is $( 'body' ).</span>
+    <span class="nx">within</span><span class="o">:</span> <span class="nx">$</span><span class="p">(</span> <span class="s1">'#content'</span> <span class="p">)</span>
+<span class="p">});</span>
+</pre></div>
+
+<p>By default <code>#menu</code> will get one of the following CSS classes:</p>
+
+<ul>
+<li>
+<code>static</code> when the top offset of the viewport is above the target element;</li>
+<li>
+<code>fixed</code> when the top offset is below the target element;</li>
+<li>
+<code>bottom</code> when the target element, while being fixed, reaches the bottom of <code>within</code>.</li>
+</ul><p>These classes can be easily overriden, <em>e.g.</em>:</p>
+
+<div class="highlight"><pre><span class="nx">$</span><span class="p">(</span> <span class="s1">'#menu'</span> <span class="p">).</span><span class="nx">stronghold</span><span class="p">({</span>
+    <span class="nx">within</span>      <span class="o">:</span> <span class="nx">$</span><span class="p">(</span> <span class="s1">'#content'</span> <span class="p">),</span>
+    <span class="nx">staticClass</span> <span class="o">:</span> <span class="s1">'stronghold-static'</span><span class="p">,</span>
+    <span class="nx">fixedClass</span>  <span class="o">:</span> <span class="s1">'stronghold-fixed'</span><span class="p">,</span>
+    <span class="nx">bottomClass</span> <span class="o">:</span> <span class="s1">'stronghold-bottom'</span>
+<span class="p">});</span>
+</pre></div>
+
+<p>Please consider supplying your own CSS declarations for the above classes, however, you can use the following for minimal setup:</p>
+
+<div class="highlight"><pre><span class="nf">#menu</span><span class="nc">.fixed</span> <span class="p">{</span>
+    <span class="k">position</span><span class="o">:</span> <span class="k">fixed</span><span class="p">;</span>
+    <span class="k">top</span><span class="o">:</span> <span class="m">10px</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nf">#menu</span><span class="nc">.bottom</span> <span class="p">{</span>
+    <span class="k">position</span><span class="o">:</span> <span class="k">absolute</span><span class="p">;</span>
+    <span class="k">bottom</span><span class="o">:</span> <span class="m">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nf">#content</span> <span class="p">{</span>
+    <span class="k">position</span><span class="o">:</span> <span class="k">relative</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+<h2>Modifying trigger boundaries</h2>
+
+<p>Sometimes you might need to adjust the vertical offset at which the target element changes from <code>static</code> to <code>fixed</code>. In order to achieve this, simply pass <code>staticOffset</code> property to the options list:</p>
+
+<div class="highlight"><pre><span class="nx">$</span><span class="p">(</span> <span class="s1">'#menu'</span> <span class="p">).</span><span class="nx">stronghold</span><span class="p">({</span>
+    <span class="nx">within</span>       <span class="o">:</span> <span class="nx">$</span><span class="p">(</span> <span class="s1">'#content'</span> <span class="p">),</span>
+    <span class="nx">staticOffset</span> <span class="o">:</span> <span class="mi">10</span>
+<span class="p">});</span>
+</pre></div>
+
+<p>Now the <code>#menu</code> will switch to <code>fixed</code> state once the top viewport margin moves <strong>10 pixels below</strong> the <code>#content</code>'s top boundary. Nota that you may pass negative number as well.</p>
+
+<h2>State switch callbacks</h2>
+
+<p>Pass in optional callbacks should you want to track the changing state of the target element:</p>
+
+<div class="highlight"><pre><span class="nx">$</span><span class="p">(</span> <span class="s1">'#menu'</span> <span class="p">).</span><span class="nx">stronghold</span><span class="p">({</span>
+    <span class="nx">within</span><span class="o">:</span> <span class="nx">$</span><span class="p">(</span> <span class="s1">'#content'</span> <span class="p">),</span>
+    <span class="nx">onFixed</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span> <span class="s1">'The menu is now fixed'</span> <span class="p">);</span>
+    <span class="p">},</span>
+    <span class="nx">onStatic</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span> <span class="s1">'The menu is back to static'</span> <span class="p">);</span>
+    <span class="p">},</span>
+    <span class="nx">onBottom</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span> <span class="s1">'The menu reached the bottom'</span> <span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">});</span>
+</pre></div>
+      </section>
+    </div>
+    <footer>
+      <p>Project maintained by <a href="https://github.com/Lapple">Lapple</a></p>
+      <p>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></p>
+    </footer>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+    
+  </body>
+</html>
