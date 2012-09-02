@@ -8,7 +8,8 @@
       var _this = this;
       $.extend(true, this, this.defaults, options);
       this.sidebarState = this.staticClass;
-      this.offsetRight = this.calculateOffset();
+      this.parentOffset = this.el.position().left + this.parseAttribute(this.el.css('border-left-width'));
+      this.offsetLeft = this.calculateOffset();
       this.contentOffsetTop = this.within.offset().top + this.staticOffset;
       this.window.scroll(function() {
         var cHeight, sHeight, scrollTop;
@@ -16,21 +17,21 @@
           return;
         }
         scrollTop = _this.window.scrollTop();
-        if (scrollTop >= _this.contentOffsetTop && _this.offsetRight) {
-          sHeight = _this.el.height();
+        if (scrollTop >= _this.contentOffsetTop && _this.offsetLeft) {
+          sHeight = _this.el.outerHeight() + _this.parseAttribute(_this.el.css('top'));
           cHeight = _this.within.outerHeight();
           if (scrollTop > cHeight + _this.contentOffsetTop - sHeight) {
             return _this.set(_this.bottomClass, {
-              right: 'auto'
+              left: _this.parentOffset
             });
           } else {
             return _this.set(_this.fixedClass, {
-              right: _this.offsetRight
+              left: _this.offsetLeft
             });
           }
         } else {
           return _this.set(_this.staticClass, {
-            right: 'auto'
+            left: 'auto'
           });
         }
       });
@@ -39,28 +40,28 @@
         if (_this.sidebarState === _this.preventClass) {
           return;
         }
-        _this.offsetRight = _this.calculateOffset();
-        offset = _this.sidebarState === _this.fixedClass ? _this.offsetRight : 'auto';
+        _this.offsetLeft = _this.calculateOffset();
+        offset = _this.sidebarState === _this.fixedClass ? _this.offsetLeft : 'auto';
         if (offset) {
           return _this.set(_this.sidebarState, {
-            right: offset,
+            left: offset,
             force: true
           });
         } else {
           return _this.set(_this.staticClass, {
-            right: 'auto'
+            left: 'auto'
           });
         }
       });
     }
 
     Stronghold.prototype.calculateOffset = function() {
-      var right;
-      right = Math.floor((this.window.width() - this.within.width()) / 2);
-      if (right < 0) {
+      var left;
+      left = Math.round((this.window.width() - this.within.outerWidth()) / 2) + this.parentOffset;
+      if (left < 0) {
         return false;
       } else {
-        return right;
+        return left;
       }
     };
 
@@ -72,8 +73,8 @@
       if (newState === this.sidebarState && !params.force) {
         return;
       }
-      if (params.right != null) {
-        this.el.css('right', params.right);
+      if (params.left != null) {
+        this.el.css('left', params.left);
       }
       switch (newState) {
         case this.staticClass:
@@ -93,6 +94,10 @@
       }
       this.el.removeClass(this.sidebarState).addClass(newState);
       return this.sidebarState = newState;
+    };
+
+    Stronghold.prototype.parseAttribute = function(attr) {
+      return parseInt(attr, 10) || 0;
     };
 
     Stronghold.prototype.window = $(window);

@@ -5,7 +5,8 @@ do ( $ = jQuery ) ->
 
       # Initial sidebar state
       @sidebarState     = @staticClass
-      @offsetRight      = @calculateOffset()
+      @parentOffset     = @el.position().left + @parseAttribute( @el.css 'border-left-width' )
+      @offsetLeft       = @calculateOffset()
       @contentOffsetTop = @within.offset().top + @staticOffset
 
       @window.scroll =>
@@ -16,18 +17,18 @@ do ( $ = jQuery ) ->
 
           # Add @fixedClass if the scroll position
           # is in the middle of the page
-          if scrollTop >= @contentOffsetTop and @offsetRight
+          if scrollTop >= @contentOffsetTop and @offsetLeft
             # Add @bottomClass if the page is scrolled
             # to the bottom of the boundary
-            sHeight = @el.height()
+            sHeight = @el.outerHeight() + @parseAttribute( @el.css 'top' )
             cHeight = @within.outerHeight()
 
             if scrollTop > cHeight + @contentOffsetTop - sHeight
-              @set @bottomClass, { right: 'auto' }
+              @set @bottomClass, { left: @parentOffset }
             else
-              @set @fixedClass, { right: @offsetRight }
+              @set @fixedClass, { left: @offsetLeft }
           else
-            @set @staticClass, { right: 'auto' }
+            @set @staticClass, { left: 'auto' }
 
         # Recalculate horizontal position of the sidebar
         # on window resize
@@ -35,35 +36,38 @@ do ( $ = jQuery ) ->
           # Prevent default actions
           return if @sidebarState is @preventClass
 
-          @offsetRight = @calculateOffset()
-          offset       = if @sidebarState is @fixedClass then @offsetRight else 'auto'
+          @offsetLeft  = @calculateOffset()
+          offset       = if @sidebarState is @fixedClass then @offsetLeft else 'auto'
 
           if offset
-            @set @sidebarState, { right: offset, force: true }
+            @set @sidebarState, { left: offset, force: true }
           else
-            @set @staticClass, { right: 'auto' }
+            @set @staticClass, { left: 'auto' }
 
     # Horizontal offset of the sidebar
     calculateOffset: ->
-      right = Math.floor( ( @window.width() - @within.width() ) / 2 )
-      return if right < 0 then false else right
+      left = Math.round( ( @window.width() - @within.outerWidth() ) / 2 ) + @parentOffset
+      return if left < 0 then false else left
 
     set: ( newState, params = {} ) ->
       return if newState is @sidebarState and !params.force
 
-      if params.right?
-        @el.css 'right', params.right
+      if params.left?
+        @el.css 'left', params.left
 
       switch newState
-        when @staticClass   then @onStatic?.call( @el[0] )
-        when @fixedClass    then @onFixed?.call( @el[0] )
-        when @bottomClass   then @onBottom?.call( @el[0] )
+        when @staticClass then @onStatic?.call( @el[0] )
+        when @fixedClass  then @onFixed?.call( @el[0] )
+        when @bottomClass then @onBottom?.call( @el[0] )
 
       @el
         .removeClass( @sidebarState )
         .addClass( newState )
 
       @sidebarState = newState
+
+    parseAttribute: ( attr ) ->
+      parseInt( attr, 10 ) or 0
 
     window: $( window )
 
