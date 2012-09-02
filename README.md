@@ -32,16 +32,19 @@ $( '#menu' ).stronghold({
 Please consider supplying your own CSS declarations for the above classes, however, you can use the following for minimal setup:
 
 ```css
-#menu.fixed {
+.fixed {
     position: fixed;
-    top: 10px;
 }
 
-#menu.bottom {
+.bottom {
     position: absolute;
     bottom: 0;
 }
 
+/*
+ * In order to appropriately display `bottom` position
+ * boundary element should be positioned relatively.
+ */
 #content {
     position: relative;
 }
@@ -58,7 +61,7 @@ $( '#menu' ).stronghold({
 });
 ```
 
-Now the `#menu` will switch to `fixed` state once the top viewport margin moves **10 pixels below** the `#content`'s top boundary. Nota that you may pass negative number as well.
+Now the `#menu` will switch to `fixed` state once the top viewport margin moves **10 pixels below** the `#content`'s top boundary. Note that you may pass negative number as well.
 
 ## State switch callbacks
 
