@@ -6,7 +6,7 @@ do ( $ = jQuery ) ->
       # Initial sidebar state
       @sidebarState     = @staticClass
       @offsetRight      = @calculateOffset()
-      @contentOffsetTop = @boundary.offset().top + @staticOffset
+      @contentOffsetTop = @within.offset().top + @staticOffset
 
       @window.scroll =>
           # Prevent default actions
@@ -20,7 +20,7 @@ do ( $ = jQuery ) ->
             # Add @absoluteClass if the page is scrolled
             # to the bottom of the boundary
             sHeight = @el.height()
-            cHeight = @boundary.outerHeight()
+            cHeight = @within.outerHeight()
 
             if scrollTop > cHeight + @contentOffsetTop - sHeight
               @set @absoluteClass, { right: 'auto' }
@@ -45,7 +45,7 @@ do ( $ = jQuery ) ->
 
     # Horizontal offset of the sidebar
     calculateOffset: ->
-      right = Math.floor( ( @window.width() - @boundary.width() ) / 2 )
+      right = Math.floor( ( @window.width() - @within.width() ) / 2 )
       return if right < 0 then false else right
 
     set: ( newState, params = {} ) ->
@@ -73,6 +73,7 @@ do ( $ = jQuery ) ->
       absoluteClass : 'absolute'
       staticClass   : 'static'
       staticOffset  : 0
+      within        : $( 'body' )
 
   # Exporting the plugin
   $.fn.stronghold = ( method, args ) ->

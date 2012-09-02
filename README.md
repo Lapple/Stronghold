@@ -1,4 +1,4 @@
-# Stronghold
+# Stronghold v0.0.1
 
 Small jQuery plugin that adds «fixed-view» behavior to any element.
 
@@ -6,8 +6,9 @@ Small jQuery plugin that adds «fixed-view» behavior to any element.
 
 ```js
 $( '#menu' ).stronghold({
-    // Boundaries to fix the element within
-    boundary: $( '#content' )
+    // Boundaries to fix the element within.
+    // Default is $( 'body' ).
+    within: $( '#content' )
 });
 ```
 
@@ -15,13 +16,13 @@ By default `#menu` will get one of the following CSS classes:
 
 - `static` when the top offset of the viewport is above the target element;
 - `fixed` when the top offset is below the target element;
-- `absolute` when the target element, while being fixed, reaches the bottom of `boundary`.
+- `absolute` when the target element, while being fixed, reaches the bottom of `within`.
 
 These classes can be easily overriden, *e.g.*:
 
 ```js
 $( '#menu' ).stronghold({
-    boundary      : $( '#content' ),
+    within        : $( '#content' ),
     staticClass   : 'stronghold-static',
     fixedClass    : 'stronghold-fixed',
     absoluteClass : 'stronghold-bottom'
@@ -52,7 +53,7 @@ Sometimes you might need to adjust the vertical offset at which the target eleme
 
 ```js
 $( '#menu' ).stronghold({
-    boundary     : $( '#content' ),
+    within       : $( '#content' ),
     staticOffset : 10
 });
 ```
@@ -65,7 +66,7 @@ Pass in optional callbacks should you want to track the changing state of the ta
 
 ```js
 $( '#menu' ).stronghold({
-    boundary: $( '#content' ),
+    within: $( '#content' ),
     onFixed: function() {
         console.log( 'The menu is now fixed' );
     },
