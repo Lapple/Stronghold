@@ -1,4 +1,4 @@
-# Stronghold v0.0.1
+# Stronghold v0.0.2
 
 Small jQuery plugin that adds «fixed-view» behavior to any element.
 

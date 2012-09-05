@@ -41,8 +41,8 @@
           return;
         }
         _this.offsetLeft = _this.calculateOffset();
-        offset = _this.sidebarState === _this.fixedClass ? _this.offsetLeft : 'auto';
-        if (offset) {
+        offset = _this.sidebarState === _this.fixedClass ? _this.offsetLeft : _this.parentOffset;
+        if (_this.sidebarState !== _this.staticClass) {
           return _this.set(_this.sidebarState, {
             left: offset,
             force: true
@@ -66,7 +66,7 @@
     };
 
     Stronghold.prototype.set = function(newState, params) {
-      var _ref, _ref1, _ref2;
+      var args, _ref, _ref1, _ref2;
       if (params == null) {
         params = {};
       }
@@ -76,20 +76,21 @@
       if (params.left != null) {
         this.el.css('left', params.left);
       }
+      args = [newState, this.el.outerHeight()];
       switch (newState) {
         case this.staticClass:
           if ((_ref = this.onStatic) != null) {
-            _ref.call(this.el[0]);
+            _ref.apply(this.el[0], args);
           }
           break;
         case this.fixedClass:
           if ((_ref1 = this.onFixed) != null) {
-            _ref1.call(this.el[0]);
+            _ref1.apply(this.el[0], args);
           }
           break;
         case this.bottomClass:
           if ((_ref2 = this.onBottom) != null) {
-            _ref2.call(this.el[0]);
+            _ref2.apply(this.el[0], args);
           }
       }
       this.el.removeClass(this.sidebarState).addClass(newState);

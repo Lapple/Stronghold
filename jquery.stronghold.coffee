@@ -36,13 +36,13 @@ do ( $ = jQuery ) ->
           # Prevent default actions
           return if @sidebarState is @preventClass
 
-          @offsetLeft  = @calculateOffset()
-          offset       = if @sidebarState is @fixedClass then @offsetLeft else 'auto'
+          @offsetLeft = @calculateOffset()
+          offset      = if @sidebarState is @fixedClass then @offsetLeft else @parentOffset
 
-          if offset
+          unless @sidebarState is @staticClass
             @set @sidebarState, { left: offset, force: true }
           else
-            @set @staticClass, { left: 'auto' }
+            @set @staticClass,  { left: 'auto' }
 
     # Horizontal offset of the sidebar
     calculateOffset: ->
@@ -55,10 +55,15 @@ do ( $ = jQuery ) ->
       if params.left?
         @el.css 'left', params.left
 
+      args = [
+        newState
+        @el.outerHeight()
+      ]
+
       switch newState
-        when @staticClass then @onStatic?.call( @el[0] )
-        when @fixedClass  then @onFixed?.call( @el[0] )
-        when @bottomClass then @onBottom?.call( @el[0] )
+        when @staticClass then @onStatic?.apply( @el[0], args )
+        when @fixedClass  then @onFixed?.apply( @el[0], args )
+        when @bottomClass then @onBottom?.apply( @el[0], args )
 
       @el
         .removeClass( @sidebarState )
