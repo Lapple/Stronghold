@@ -65,18 +65,18 @@ Now the `#menu` will switch to `fixed` state once the top viewport margin moves 
 
 ## State switch callbacks
 
-Pass in optional callbacks should you want to track the changing state of the target element:
+Pass in optional callbacks should you want to track the changing state of the target element. Each callback receives the new `state` as first argument and target element's `height` as the second:
 
 ```js
 $( '#menu' ).stronghold({
     within: $( '#content' ),
-    onFixed: function() {
+    onFixed: function( state, height ) {
         console.log( 'The menu is now fixed' );
     },
-    onStatic: function() {
+    onStatic: function( state, height ) {
         console.log( 'The menu is back to static' );
     },
-    onBottom: function() {
+    onBottom: function( state, height ) {
         console.log( 'The menu reached the bottom' );
     }
 });
