@@ -92,18 +92,18 @@
 
 <h2>State switch callbacks</h2>
 
-<p>Pass in optional callbacks should you want to track the changing state of the target element:</p>
+<p>Pass in optional callbacks should you want to track the changing state of the target element. Each callback receives the new <code>state</code> as first argument and target element's <code>height</code> as the second:</p>
 
 <div class="highlight"><pre><span class="nx">$</span><span class="p">(</span> <span class="s1">'#menu'</span> <span class="p">).</span><span class="nx">stronghold</span><span class="p">({</span>
     <span class="nx">within</span><span class="o">:</span> <span class="nx">$</span><span class="p">(</span> <span class="s1">'#content'</span> <span class="p">),</span>
-    <span class="nx">onFixed</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span> <span class="s1">'The menu is now fixed'</span> <span class="p">);</span>
+    <span class="nx">onFixed</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span> <span class="nx">state</span><span class="p">,</span> <span class="nx">height</span> <span class="p">)</span> <span class="p">{</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span> <span class="s1">'The menu is now '</span> <span class="o">+</span> <span class="nx">state</span> <span class="p">);</span>
     <span class="p">},</span>
-    <span class="nx">onStatic</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span> <span class="s1">'The menu is back to static'</span> <span class="p">);</span>
+    <span class="nx">onStatic</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span> <span class="nx">state</span><span class="p">,</span> <span class="nx">height</span> <span class="p">)</span> <span class="p">{</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span> <span class="s1">'The menu is back to '</span> <span class="o">+</span> <span class="nx">state</span> <span class="p">);</span>
     <span class="p">},</span>
-    <span class="nx">onBottom</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span> <span class="s1">'The menu reached the bottom'</span> <span class="p">);</span>
+    <span class="nx">onBottom</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span> <span class="nx">state</span><span class="p">,</span> <span class="nx">height</span> <span class="p">)</span> <span class="p">{</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span> <span class="s1">'The menu reached the '</span> <span class="o">+</span> <span class="nx">state</span> <span class="p">);</span>
     <span class="p">}</span>
 <span class="p">});</span>
 </pre></div>
